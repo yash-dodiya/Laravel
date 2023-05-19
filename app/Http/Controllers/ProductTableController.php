@@ -4,14 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\productTable;
 use Illuminate\Http\Request;
+use App\Traits\ImageTrait;
+use App\Mail\MyTestMail;
+use PDF;
+use Mail;
 
 class ProductTableController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * 
-     */
-   
+    
+    
+    use ImageTrait;
+    
+    public function testTrait(Request $request){
+        $input['image'] = $this->verifyAndUpload($request, 'image', 'images');
+        dd("inside Trait controller called");
+
+    }
     public function index(productTable $productTable)
     {
 
@@ -91,9 +99,7 @@ class ProductTableController extends Controller
             $myimage = $request->product_image->getClientOriginalName();
             $request->product_image->move(public_path($destinationPath), $myimage);
         }
-        else{
-            
-
+        else{        
            $myimage= $request->product_image_old;
         }
 
@@ -131,5 +137,18 @@ class ProductTableController extends Controller
         $productById->delete($id);
         return redirect('product')->with('status', 'Record delated successfully');
 
+    }
+
+    public function sendmail(){
+        $data["email"] = "dodiyay098@gmail.com";
+        $data["title"] = "From nilkhanth mango.com";
+        $data["body"] = "This is mango farm";
+    
+        $pdf = PDF::loadView('emails.myTestMail', $data);
+        $data["pdf"] = $pdf;
+  
+        Mail::to($data["email"])->send(new MyTestMail($data));
+    
+        dd('Mail sent successfully');
     }
 }

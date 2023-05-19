@@ -16,8 +16,8 @@ class productTable extends Model
         foreach ($insertproduct as $key => $value) {
             $productTable-> $key = $value;
         }
-        $productTable->save();
-        return redirect('product')->with('insert-status', 'Record Added successfully');
+        return $productTable->save();
+         
         
 
     }

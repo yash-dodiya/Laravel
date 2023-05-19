@@ -22,7 +22,7 @@ class Admincontroller extends Controller
     }
     public function products(Request $request,productTable $productTable)
     {
-        dd("called");
+        // dd("called");
         $productData=$productTable->get();
         // dd("called");
         // $data=array("test"=>"someone");
@@ -38,13 +38,14 @@ class Admincontroller extends Controller
         return $productData;
 
     }
+    
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        return view("start");
     }
 
     /**
@@ -52,21 +53,28 @@ class Admincontroller extends Controller
      */
     public function store(Request $request,productTable $productTable)
     {
+        // dd($request->all());
         // $destinationPath = 'images';
         // $myimage = $request->product_image->getClientOriginalName();
         // $request->product_image->move(public_path($destinationPath), $myimage);
-        $productTable->product_title = $request->product_title;
-        $productTable->product_description =$request->product_description;
-        $productTable->product_price = $request->product_price;
-        $productTable->product_quantity = $request->product_quantity;
-        $productTable->product_image ="mango";
-        $productTable->created_at = date("Y-m-d H:i:s");
-        $response = $productTable->save();
-        return $response;
+        // $productTable->product_title = $request->product_title;
+        // $productTable->product_description =$request->product_description;
+        // $productTable->product_price = $request->product_price;
+        // $productTable->product_quantity = $request->product_quantity;
+        // $productTable->product_image ="mango";
+        // $productTable->created_at = date("Y-m-d H:i:s");
+        // $response = $productTable->save();
+        // return $response;
         // return redirect('product')->with('insert-status', 'Record Added successfully');
-        
         // return("called");
-    }
+
+
+        $saveproduct = array("product_title"=>$request->product_title,"product_description"=>$request->product_description,"product_price"=>$request->product_price,"product_quantity"=>$request->product_quantity,"created_at"=>date("Y-m-d H:i:s"),"product_image"=>"myimage.jpg");
+
+        $productData=$productTable->customfunctiomn($saveproduct,$productTable);
+        return $productData;
+
+    }   
 
     /**
      * Display the specified resource.
@@ -83,10 +91,11 @@ class Admincontroller extends Controller
     {
         // dd("called" ,$id);
         // $productById=$productTable::find($id);
-        // dd("called");
+        dd("called");
         // $data=array("test"=>"someone");
         // return view("addnewpro",compact('productById'));
-        $productById=$producttable::find($id);
+        $productById=$productTable::find($id);
+        return $productById;
 
     }
 
@@ -106,3 +115,4 @@ class Admincontroller extends Controller
         //
     }
 }
+
