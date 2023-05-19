@@ -10,7 +10,7 @@ Ajax Data
 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
 <div class="p-6 text-gray-900 dark:text-gray-100">
     
-    <form  name="myform" id="myform" onsubmit="event.preventDefault() savepro();" method="post">
+    <form  name="myform" id="myform" onsubmit="event.preventDefault(); saveproduct();" method="post">
         <div class="row" style="padding: 10px">
         
             <div class="col-md-12">
@@ -37,7 +37,6 @@ Ajax Data
                         <input class="btn btn-primary" type="submit" name="btn-save" id="btn-save">
                     </div>
                 </div>
-                
             </div>
         </div>
     </form>
@@ -46,6 +45,7 @@ Ajax Data
         <table class="table table-striped table-bordered">
             <thead>
                 <tr>
+                    <th>id</th>
                     <th>Title</th>
                     <th>description</th>
                     <th>price</th>
@@ -65,107 +65,96 @@ Ajax Data
 
             // document.getElementById("myform").addEventListener("click",function(){
                 // console.log("called submit");
-                function savepro(){
-                    
-                    var result = {};
-                    $.each($('#myform').serializeArray(), function() {
-                        result[this.name] = this.value;
-                    });
-    
-                    // console.log(result);
-                    fetch("http://localhost:8000/api/saveproduct",{
-                    method: 'POST',
-                    headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(result)
-                }).then((returnData)=>
-                    returnData.json()).then((response)=>{
-                        console.log(response);
-                // autoload();
-
-                    });
-                }
-            // })
-
-
-function getproducts(){
-    // console.log("called");
-    fetch("http://localhost:8000/api/getallproductsdata").then((returnData)=>
-    returnData.json()).then((response)=>{
+         function getproducts(){
+             // console.log("called");
+            fetch("http://localhost:8000/api/getallproductsdata").then((returnData)=>
+            returnData.json()).then((response)=>{
                 // console.log(response); 
-                htmltable=""
-                response.forEach(element => {
-                    console.log(element);
-                    htmltable+=`<tr>
-                        <td>${element.product_title}</td>
-                        <td>${element.product_description}</td>
-                        <td>${element.product_price}</td>
-                        <td>${element.product_quantity}</td>
-                        <td>${element.product_image}</td>
-                        <td><button class="btn btn-primary" onclick="getdatabyid()"(${element.id})">Edit</button></td>
-                        <td><button class="btn btn-danger" onclick="getDatabyId(${element.id})">Delate</button></td>
-                        </tr>`
+            htmltable=""
+            response.forEach(element => {
+            // console.log(element);
+            htmltable+=`<tr>
+            <td>${element.id}</td>
+            <td>${element.product_title}</td>
+                <td>${element.product_description}</td>
+                <td>${element.product_price}</td>
+                <td>${element.product_quantity}</td>
+                <td><img src="images/${element.product_image}" width="100px"></td>
+                <td><button class="btn btn-primary" onclick="getdatabyid(${element.id})">Edit</button></td>
+                <td><button class="btn btn-danger" onclick="getDatabyId(${element.id})">Delate</button></td>
+                </tr>`
                 });
                 // console.log(htmltable);
                 document.getElementById("listalldata").innerHTML=htmltable
-                })}
-                window.onload = getproducts;
-                
-
-     function savetododata(params){
-                // console.log("savetododata called");
-                
-                fetch("http://localhost:8000/api/getallproductsdata")
-                .then((res)=>res.json()).then((result)=>{
-                // result[this.name] = this.value;
-                // autoload();
-                console.log("result");
-            })
-    }
-
-  function updatetododata(ajaxid){
-
-     console.log("updatetododata called",ajaxid);
-
-    fetch("http://localhost:8000/api/getallproductsdata="+ajaxid)
-    .then((res)=>res.json()).then((result)=>{ 
-        console.log(res);
-       {
-            var myForm = document.getElementById('myForm');
-            document.getElementById("btn-save").value = "add";
-            myForm.setAttribute('onsubmit',`event.preventDefault(); savetododata()`);
-            }
+        })}
+            window.onload = getproducts;
      
-        // console.log(result); 
-     })
-}
-
-
-  function getdatabyid(id){
-
-        console.log("edit",id);
         
-        fetch("http://localhost:8000/api/getdata/id")
-        .then((returnData)=>returnData.json()).then((response)=>{
-                console.log(response)
+    function getdatabyid(id){
+
+                console.log(id);
+
+                fetch("http://localhost:8000/api/getdataapi/"+id)
+                .then((returnData)=>returnData.json()).then((response)=>{
+                console.log(response);
+                
 
                 document.getElementById('product_title').value=response.product_title
-                document.getElementById('product_description').value=response.product_description
+                document.getElementById('product_description').innerHTML=response.product_description
                 document.getElementById('product_price').value=response.product_price
                 document.getElementById('product_quantity').value=response.product_quantity
                 // document.getElementById('product_image').value=response.product_image
-                document.getElementById('product_image_old').value=response.product_image_old
-
-                
-    
                 var myform = document.getElementById('myform');
                 document.getElementById("btn-save").value="update";
                 myform.setAttribute('onsubmit',`event.preventDefault(); updatetododata(${response.id})`);
-            })
-        
-            } 
+                });
+                } 
+     
+     
+     
+    function saveproduct(){
+                console.log("CALLEDSAVE PRODUCT");
+                
+                var result = {};
+                $.each($('#myform').serializeArray(), function() {
+                 result[this.name] = this.value;
+                });
+    
+                console.log(result);
+                
+
+                fetch("http://localhost:8000/api/saveproduct",{
+                method: 'POST',
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(result)
+                }).then((response)=>
+                response.json()).then((result)=>{
+                        console.log(result);
+                // autoload();
+                getproducts();
+             })
+            }
+
+    function updatetododata(ajaxid){
+
+            console.log("updatetododata called",ajaxid);
+
+            fetch("http://localhost:8000/api/getallproductsdata="+ajaxid)
+            .then((res)=>res.json()).then((result)=>{ 
+                console.log(res);
+            {
+            var myForm = document.getElementById('myForm');
+            document.getElementById("btn-save").value = "add";
+            myForm.setAttribute('onsubmit',`event.preventDefault(); savetododata()`);
+            }     
+          })
+        }
+
+
+    
             </script>
         @endpush
     </div>

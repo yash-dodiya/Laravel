@@ -18,7 +18,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::any('/getallproductsdata',[App\http\controllers\admincontroller::class, 'productsdataapiget']);
-Route::any('/getdata/{id}',[App\http\controllers\admincontroller::class, 'getdataapi']);
+Route::any('/getdataapi/{id}',[App\http\controllers\admincontroller::class, 'getdataapi']);
+
+
+
+// Route::any('/getdataapi/{id}',[App\http\controllers\admincontroller::class, 'getdataapi']);
+// Route::any('/getdataapi/{id}',[App\http\controllers\admincontroller::class, 'getdataapi']);
+// Route::any('/getdataapi/{id}',[App\http\controllers\admincontroller::class, 'getdataapi']);
 
 Route::any('/saveproduct',[App\http\controllers\admincontroller::class, 'store']);
+Route::any('/testTrait',[App\http\controllers\ProductTableController::class, 'testTrait']);
 
+
+
+?>

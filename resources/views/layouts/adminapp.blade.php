@@ -152,7 +152,7 @@ rel="stylesheet"
         </ul>
       </li>
 
-      {{-- <li class="menu-item">
+      <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-layout"></i>
           <div data-i18n="Layouts">Layouts</div>
@@ -165,17 +165,31 @@ rel="stylesheet"
             </a>
           </li>
         </ul>
-      </li> --}}
+      </li>
 
       <li class="menu-header small text-uppercase">
         <span class="menu-header-text">Pages</span>
       </li>
-      <li class="menu-item">
-        <a href="Ajax" class="menu-link">
-          <i class="menu-icon"></i>
-          <div data-i18n="Analytics">Ajax Example</div>
-        </a>
-      </li>
+        <li class="menu-sub">
+          <li class="menu-item">
+            <a href="Ajax" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-home-circle"></i>
+              <div data-i18n="Without menu">Ajax Example</div>
+            </a>
+          </li>
+        </li>
+          <li class="menu-item">
+            <a href="viewmacro" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-home-circle"></i>
+              <div data-i18n="Without menu">Custom Macro Example</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="send-mail" class="menu-link">
+              <i class="menu-icon tf-icons bx bxs-envelope"></i>
+              <div data-i18n="envolope">Send-mail</div>
+            </a>
+          </li>
     </ul>
   </aside>
   <!-- / Menu -->

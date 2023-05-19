@@ -45,7 +45,6 @@ Route::get('/product',[App\http\controllers\ProductTableController::class, 'inde
 // Route::get('/delatepro/{id}',[App\http\controllers\ProductTableController::class, 'destroy']);
 Route::get('/editpro/{id}',[App\http\controllers\ProductTableController::class, 'edit']);
 Route::post('/updatepro/{id}',[App\http\controllers\ProductTableController::class, 'update']);
-// Route::get('/updateproduct/{id}',[App\http\controllers\ProductTableController::class, 'update']);
 Route::get('/delatepro/{id}',[App\http\controllers\ProductTableController::class, 'destroy']);
 
 
@@ -57,10 +56,30 @@ Route::any('/eloqrele',[App\http\controllers\commentController::class, 'index'])
 
 Route::any('/admindashboard',[App\http\controllers\Admincontroller::class, 'index']);
 Route::any('/allproducts',[App\http\controllers\Admincontroller::class, 'products']);
-
+// Route::any('/testTrait',[App\http\controllers\ProductTableController::class, 'testTrait']);
 
 
 Route::view('/Ajax','ajaxview');
+Route::view('/uploadimageajax','uploadimage');
+
+Route::view('/viewmacro','viewmacro');
+
+
+
+// Route::get('send-mail', function () {
+
+//     $details = [
+//         'title' => 'Mail from yashsinh ',
+//         'body' => 'This is for testing email using smtp'
+//     ];
+
+//    \Mail::to('dodiyay098@gmail.com')->send(new \App\Mail\MyTestMail($details));
+//     dd("Email send successfully.");
+// });
+Route::get('send-mail', [App\http\controllers\ProductTableController::class, 'sendmail']);
+
+
+
 // Route::view('/Ajax',[App\http\controllers\Admincontroller::class, 'productsdataapiget']);
 
 
